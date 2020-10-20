@@ -1,0 +1,7 @@
+dbserver:
+  dbstr: helloooooo
+  name:
+    name: firstblood
+  timeout:
+    connect: 100s
+    singleblock: 2s

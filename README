@@ -1,0 +1,22 @@
+
+命令终端示例
+
+## 编译
+./mybuild.sh
+
+（注：如果有依赖的包，手动拷贝到vendor对应目录，后续完善）
+
+## 使用  
+config.yaml：配置文件  
+
+## 临时记录
+工具形式如何？以易阅读的方式，见字知意  
+如：
+a.exe misc test1
+a.exe misc test2
+or
+a.exe misc --mode test1
+a.exe misc --mode test2
+(这种形式也可以)
+
+优化子命令接口
