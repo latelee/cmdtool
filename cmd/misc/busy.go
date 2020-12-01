@@ -7,6 +7,6 @@ import (
 
 )
 
-func foo() {
+func foo(args []string) {
 	klog.Println("misc foo.....");
 }

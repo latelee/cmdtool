@@ -1,31 +1,39 @@
 package cmd
 
 import (
-    //"fmt"
+    "fmt"
 
     "github.com/spf13/cobra"
 	_ "github.com/spf13/pflag"
 	
 	"k8s.io/klog"
+	conf "github.com/latelee/cmdtool/common/conf"
 )
 
 var (
     name = `test`
-    shortDescription = `  test command`
-    longDescription  = `  test...
+    shortDescription = `test command`
+    longDescription  = `test...
 `
     example = `  example comming up...
 `
 )
 
-type UserCmdFunc struct {
-	name string
-	fn func(args []string)
+var theCmd = []conf.UserCmdFunc{
+    conf.UserCmdFunc {
+        Name: "foo",
+        ShortHelp: "just a foo help info",
+        Func: foo,
+    },
+    conf.UserCmdFunc {"watch", "watch config file", testWatch,},
 }
 
-// theCmd := &UserCmdFunc {
-// 	"foo", foo(args []string)
-// }
+func printHelpInfo() {
+	klog.Println("valid cmd: ");
+	for _, item:=range theCmd {
+        fmt.Println(item.Name, "\t:", item.ShortHelp)
+    }
+}
 
 func NewCmdTest() *cobra.Command{
 	
@@ -38,6 +46,7 @@ func NewCmdTest() *cobra.Command{
 			//klog.Println(common.DBName)
 			if (len(args) == 0) {
 				klog.Warning("no args found")
+				printHelpInfo()
 				return nil
 			}
 
@@ -47,6 +56,7 @@ func NewCmdTest() *cobra.Command{
                 testWatch(args)
             } else {
 				klog.Printf("cmd '%v' not support", args[0])
+				printHelpInfo()
 				return nil
 			} 
             return nil

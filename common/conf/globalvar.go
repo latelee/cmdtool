@@ -17,7 +17,8 @@ var FlagPrint bool
 
 // 命令列表，包括名称，帮助信息
 type UserCmdFunc struct {
-	name string
-	help string
-	fn func(args []string)
+    Name string
+    ShortHelp string
+    // LongHelp string
+    Func func(args []string)
 }

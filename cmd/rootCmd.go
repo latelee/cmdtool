@@ -22,7 +22,7 @@ import (
 
 
 var (
-    longDescription = `  database test tool.
+    longDescription = `  cmd test tool.
   命令终端测试示例工具。
 `
     example = `  comming soon...
@@ -34,7 +34,7 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   filepath.Base(os.Args[0]),
-	Short: "database tool",
+	Short: "cmd tool",
 	Long: longDescription,
 	Example: example,
 	Version: "1.0",
@@ -71,7 +71,6 @@ func init() {
     rootCmd.PersistentFlags().BoolVar(&conf.FlagPrint, "print", false, "will print sth")
     // cmd.PersistentFlags().IntVarP(&port, "port", "p", 89, "port number")
 	// cmd.PersistentFlags().DurationVarP(&timeout, "timeout", "t", 10*time.Second, "http request timeout")
-
 }
 
 var yamlExample = []byte(
