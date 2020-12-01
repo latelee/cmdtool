@@ -4,7 +4,9 @@
 package common
 
 import (
-	//"fmt"
+	"fmt"
+
+	conf "github.com/latelee/cmdtool/common/conf"
 	//"errors"
 	// "os"
 	// "strings"
@@ -12,4 +14,12 @@ import (
 
 func Foo() {
 
+}
+
+
+func PrintHelpInfo(theCmd []conf.UserCmdFunc) {
+	fmt.Println("valid command: ");
+	for _, item:=range theCmd {
+        fmt.Println(item.Name, "\t:", item.ShortHelp)
+    }
 }

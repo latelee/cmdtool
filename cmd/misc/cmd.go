@@ -1,12 +1,13 @@
 package cmd
 
 import (
-    "fmt"
+    // "fmt"
     
     "k8s.io/klog"
     "github.com/spf13/cobra"
 	_ "github.com/spf13/pflag"
 	conf "github.com/latelee/cmdtool/common/conf"
+	common "github.com/latelee/cmdtool/common"
 )
 
 var (
@@ -29,13 +30,6 @@ var theCmd = []conf.UserCmdFunc{
     },
 }
 
-func printHelpInfo() {
-	klog.Println("valid cmd: ");
-	for _, item:=range theCmd {
-        fmt.Println(item.Name, "\t:", item.ShortHelp)
-    }
-}
-
 func NewCmdMisc() *cobra.Command {
     var cmd = &cobra.Command{
         Use:     name,
@@ -43,14 +37,19 @@ func NewCmdMisc() *cobra.Command {
         Long:    longDescription,
         Example: example,
         RunE: func(cmd *cobra.Command, args []string) error {
-           // klog.Printf("argv: %s\n", args)
-            if (len(args) != 0 && args[0] == "foo") {
-                foo(args)
-            } else {
-				klog.Printf("cmd '%v' not support", args[0])
-				printHelpInfo()
+			if (len(args) == 0) {
+				klog.Warning("no args found")
+				common.PrintHelpInfo(theCmd)
 				return nil
 			}
+			for _, item:=range theCmd {
+				if (args[0] == item.Name) {
+					item.Func(args)
+					return nil
+				}
+			}
+			klog.Printf("cmd '%v' not support", args[0])
+			common.PrintHelpInfo(theCmd)
             return nil
         },
     }
