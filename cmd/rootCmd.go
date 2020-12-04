@@ -67,10 +67,13 @@ func init() {
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (config.yaml)")
 
-	// 只支持长命令，默认为false，输入--print即为true
-    rootCmd.PersistentFlags().BoolVar(&conf.FlagPrint, "print", false, "will print sth")
+	// 只支持长命令，默认为false，输入--print即为true BoolVarP可加短选项
+    //rootCmd.PersistentFlags().BoolVar(&conf.FlagPrint, "print", false, "will print sth")
+    rootCmd.PersistentFlags().BoolVarP(&conf.FlagPrint, "print", "p", false, "verbose output")
     // cmd.PersistentFlags().IntVarP(&port, "port", "p", 89, "port number")
 	// cmd.PersistentFlags().DurationVarP(&timeout, "timeout", "t", 10*time.Second, "http request timeout")
+	rootCmd.PersistentFlags().StringVarP(&conf.OutputFile, "output", "o", "", "specify the output file name")
+
 }
 
 var yamlExample = []byte(
