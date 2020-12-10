@@ -19,4 +19,55 @@ a.exe misc --mode test1
 a.exe misc --mode test2
 (这种形式也可以)
 
-优化子命令接口
+优化子命令接口 完成
+
+## 工程说明
+db：将不同的三级命令整合到一起处理（非官方那样使用cmd结构体），但添加了flag，并使用官方的帮助信息显示功能。  
+test：与上类似，自行提示信息  
+
+## 知识点
+根命令、二级命令、三级命令，参数，标志。  
+
+## 官方子命令嵌套
+
+官方示例的第三级命令可认为是单独的子命令，必须按套路编码，有点麻烦，先舍弃不用。  
+
+```
+先定义根命令：
+var rootCmd = &cobra.Command {
+
+}
+
+再定义二级子命令：
+var createCmd = &cobra.Command{
+}
+在二级子命令包的init函数中添加到根命令：
+rootCmd.AddCommand(createCmd)
+
+再定义三级子命令
+var fileCmd = &cobra.Command{
+}
+在三级子命令的init函数添加到二级子命令：
+createCmd.AddCommand(fileCmd)
+
+可再定义三级子命令，方法类似
+var dirCmd = &cobra.Command{
+}
+var fileCmd = &cobra.dirCmd{
+}
+
+最终在三级子命令中实现具体业务。执行类似：
+./foo create file
+./foo create dir
+
+在三级命令后，可再加参数，如
+./foo create file fff
+
+还可加标志
+
+./foo create file fff -p /tmp
+
+等。
+如此一样可以将功能相近的子命令整合到一起使用。  
+
+```

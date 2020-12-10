@@ -23,7 +23,7 @@ import (
 
 var (
     longDescription = `  cmd test tool.
-  命令终端测试示例工具。
+  【中文样例】命令终端测试示例工具。
 `
     example = `  comming soon...
 `
@@ -65,14 +65,14 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (config.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (config.yaml)")
 
 	// 只支持长命令，默认为false，输入--print即为true BoolVarP可加短选项
     //rootCmd.PersistentFlags().BoolVar(&conf.FlagPrint, "print", false, "will print sth")
     rootCmd.PersistentFlags().BoolVarP(&conf.FlagPrint, "print", "p", false, "verbose output")
     // cmd.PersistentFlags().IntVarP(&port, "port", "p", 89, "port number")
 	// cmd.PersistentFlags().DurationVarP(&timeout, "timeout", "t", 10*time.Second, "http request timeout")
-	rootCmd.PersistentFlags().StringVarP(&conf.OutputFile, "output", "o", "", "specify the output file name")
+	rootCmd.PersistentFlags().StringVarP(&conf.FlagOutputFile, "output", "o", "", "specify the output file name")
 
 }
 

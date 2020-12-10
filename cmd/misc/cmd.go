@@ -48,7 +48,7 @@ func NewCmdMisc() *cobra.Command {
 					return nil
 				}
 			}
-			klog.Printf("cmd '%v' not support", args[0])
+			klog.Printf("arg '%v' not support", args[0])
 			common.PrintHelpInfo(theCmd)
             return nil
         },
