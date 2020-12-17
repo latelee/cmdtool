@@ -1,7 +1,7 @@
 package cmd
 
 import (
-    // "fmt"
+    "fmt"
 	"os"
 	// "io/ioutil"
 	"bytes"
@@ -22,6 +22,9 @@ import (
 
 
 var (
+	cfgFile string
+	BuildTime string
+	Version string
     longDescription = `  cmd test tool.
   【中文样例】命令终端测试示例工具。
 `
@@ -29,15 +32,17 @@ var (
 `
 )
 
-var cfgFile string
+func getVersion() string {
+	return fmt.Sprintf("  %v build: %v\n", Version, BuildTime)
+}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   filepath.Base(os.Args[0]),
 	Short: "cmd tool",
-	Long: longDescription,
+	Long: getVersion() + longDescription,
 	Example: example,
-	Version: "1.0",
+	Version: getVersion(), //, //Version,
 	// PreRun: func(cmd *cobra.Command, args []string) {
 	// },
 	// Run: func(cmd *cobra.Command, args []string) {
