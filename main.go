@@ -3,7 +3,7 @@ package main
 import (
     _ "fmt"
     "os"
-    rootCmd "github.com/latelee/cmdtool/cmd"
+    rootCmd "cmdtool/cmd"
 )
 
 func main() {

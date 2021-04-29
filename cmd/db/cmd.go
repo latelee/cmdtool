@@ -5,8 +5,8 @@ import (
     "k8s.io/klog"
     "github.com/spf13/cobra"
 	_ "github.com/spf13/pflag"
-	conf "github.com/latelee/cmdtool/common/conf"
-	common "github.com/latelee/cmdtool/common"
+	conf "cmdtool/common/conf"
+	common "cmdtool/common"
 )
 
 var (
@@ -35,7 +35,7 @@ func myHelp(cmd *cobra.Command, args []string) {
 	common.PrintHelpInfo(theCmd)
 }
 
-func NewCmdDb() *cobra.Command {
+func RegisterCmd() *cobra.Command {
     var cmd = &cobra.Command{
         Use:     name,
         Short:   shortDescription,

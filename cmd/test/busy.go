@@ -4,8 +4,8 @@ import (
 	//"fmt"
 	
 	"k8s.io/klog"
-	conf "github.com/latelee/cmdtool/common/conf"
-	com "github.com/latelee/cmdtool/pkg/com"
+	conf "cmdtool/common/conf"
+	com "cmdtool/pkg/com"
 )
 
 func foo(args []string) {

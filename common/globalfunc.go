@@ -6,7 +6,7 @@ package common
 import (
 	"fmt"
 
-	conf "github.com/latelee/cmdtool/common/conf"
+	conf "cmdtool/common/conf"
 	//"errors"
 	// "os"
 	// "strings"

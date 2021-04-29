@@ -14,17 +14,35 @@ import (
 	"github.com/fsnotify/fsnotify"
 
     "k8s.io/klog"
-    test "github.com/latelee/cmdtool/cmd/test"
-	misc "github.com/latelee/cmdtool/cmd/misc"
-	db   "github.com/latelee/cmdtool/cmd/db"
-	conf "github.com/latelee/cmdtool/common/conf"
+    test "cmdtool/cmd/test"
+	misc "cmdtool/cmd/misc"
+	db   "cmdtool/cmd/db"
+	conf "cmdtool/common/conf"
 )
 
+/*
+#include <stdio.h>
+#include "version.h"
+
+char* GetVersion()
+{
+    static char buffer[64] = {0};
+    
+    //snprintf(buffer, 64, " %s build: %s %s\r\n", "v1.0", __DATE__, __TIME__);
+    snprintf(buffer, 64, " %s\r\n", VERSION_NUMBER);
+    
+    return buffer;
+}
+*/
+import "C"
 
 var (
 	cfgFile string
 	BuildTime string
 	Version string
+
+	runmode string
+
     longDescription = `  cmd test tool.
   【中文样例】命令终端测试示例工具。
 `
@@ -32,8 +50,15 @@ var (
 `
 )
 
-func getVersion() string {
+func getVersion1() string {
 	return fmt.Sprintf("  %v build: %v\n", Version, BuildTime)
+}
+
+// c调用
+func getVersion() string {
+    name1 := C.GetVersion()
+    name := C.GoString(name1)
+	return fmt.Sprintf(" %v", name)
 }
 
 // rootCmd represents the base command when called without any subcommands
@@ -45,11 +70,19 @@ var rootCmd = &cobra.Command{
 	Version: getVersion(), //, //Version,
 	// PreRun: func(cmd *cobra.Command, args []string) {
 	// },
-	// Run: func(cmd *cobra.Command, args []string) {
-	// 	//klog.Printf("cobra demo program, with args: %v\n", args)
-	// 	// for {
-	// 	// }
-	// },
+	// 一级命令
+	Run: func(cmd *cobra.Command, args []string) {
+		klog.Printf("cobra demo program, with args: %v\n", args)
+		if (runmode == "auto") {
+			klog.Println("in mode auto")
+		} else if (runmode == "upgrade") {
+			klog.Println("in mode upgrade")
+		} else {
+			klog.Println("default mode")
+		}
+		// for {
+		// }
+	},
 	// PostRun: func(cmd *cobra.Command, args []string) {
 	// },
 }
@@ -57,9 +90,9 @@ var rootCmd = &cobra.Command{
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() error {
-    rootCmd.AddCommand(test.NewCmdTest())
-	rootCmd.AddCommand(misc.NewCmdMisc())
-	rootCmd.AddCommand(db.NewCmdDb())
+    rootCmd.AddCommand(test.RegisterCmd())
+	rootCmd.AddCommand(misc.RegisterCmd())
+	rootCmd.AddCommand(db.RegisterCmd())
 
 	return rootCmd.Execute()
 }
@@ -71,6 +104,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file (config.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&runmode, "mode", "m", "auto", "mode: auto|upgrade")
 
 	// 只支持长命令，默认为false，输入--print即为true BoolVarP可加短选项
     //rootCmd.PersistentFlags().BoolVar(&conf.FlagPrint, "print", false, "will print sth")
@@ -82,7 +116,7 @@ func init() {
 }
 
 var yamlExample = []byte(
-`dbserver:
+`cmdserver:
   dbstr: helloooooo
   timeout:
     connect: 67s
@@ -107,22 +141,22 @@ func initConfig() {
 	if  err != nil {
 		klog.Println("not found config file. using default")
 
-		// yamlStr := fmt.Sprintf("dbserver:\n %s %s %s \n", 
+		// yamlStr := fmt.Sprintf("cmdserver:\n %s %s %s \n", 
 		// 						conf.FlagDBServer, conf.FlagTimeout, conf.FlagName)
 		// ioutil.WriteFile("config.yaml", []byte(yamlStr), 0666)
 		viper.ReadConfig(bytes.NewBuffer(yamlExample))
 		viper.SafeWriteConfig()
 		
 	}
-	conf.FlagDBServer = viper.GetString("dbserver.dbstr")
-	conf.FlagTimeout = viper.GetString("dbserver.timeout.connect")
-	conf.FlagName = viper.GetString("dbserver.name.name")
+	conf.FlagDBServer = viper.GetString("cmdserver.dbstr")
+	conf.FlagTimeout = viper.GetString("cmdserver.timeout.connect")
+	conf.FlagName = viper.GetString("cmdserver.name.name")
 	klog.Println(conf.FlagDBServer, conf.FlagTimeout, conf.FlagName)
 
 	//设置监听回调函数 似乎调用了2次
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		//klog.Printf("config is change :%s \n", e.String())
-		conf.FlagTimeout = viper.GetString("dbserver.timeout.connect")
+		conf.FlagTimeout = viper.GetString("cmdserver.timeout.connect")
 	})
 
 	viper.WatchConfig()

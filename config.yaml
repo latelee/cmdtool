@@ -1,7 +1,7 @@
-dbserver:
+cmdserver:
   dbstr: helloooooo
   name:
     name: firstblood
   timeout:
-    connect: 100s
+    connect: 67s
     singleblock: 2s

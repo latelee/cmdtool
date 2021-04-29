@@ -7,8 +7,8 @@ import (
 	_ "github.com/spf13/pflag"
 	
 	"k8s.io/klog"
-	conf "github.com/latelee/cmdtool/common/conf"
-	common "github.com/latelee/cmdtool/common"
+	conf "cmdtool/common/conf"
+	common "cmdtool/common"
 	
 )
 
@@ -32,7 +32,7 @@ var theCmd = []conf.UserCmdFunc{
 
 var mode int
 
-func NewCmdTest() *cobra.Command{
+func RegisterCmd() *cobra.Command{
 
     var cmd = &cobra.Command{
         Use:     name,
