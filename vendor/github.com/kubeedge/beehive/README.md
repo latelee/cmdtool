@@ -1,2 +1,0 @@
-# beehive
-Communication Framework

@@ -2,14 +2,14 @@ package cmd
 
 import (
 	//"fmt"
-	
-	"k8s.io/klog"
+
 	conf "cmdtool/common/conf"
 	com "cmdtool/pkg/com"
+	klog "cmdtool/pkg/klog"
 )
 
 func foo(args []string) {
-	klog.Println("test foo.....");
+	klog.Println("test foo.....")
 }
 
 // 监听配置参数变化

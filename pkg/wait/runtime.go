@@ -23,7 +23,7 @@ import (
 	"sync"
 	"time"
 
-	"k8s.io/klog"
+	"cmdtool/pkg/klog"
 )
 
 var (
