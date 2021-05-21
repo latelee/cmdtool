@@ -4,7 +4,7 @@
 ## 编译
 ./mybuild.sh
 
-（注：如果有依赖的包，手动拷贝到vendor对应目录，后续完善）
+（注：使用 go 1.16版本编译，如果有依赖的包，执行 go mod vendor）
 
 ## 使用  
 config.yaml：配置文件  
